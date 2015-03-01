@@ -58,8 +58,8 @@ describe('parse.js', function () {
       html = '<div>' + text + '</div><div>' + text2 + '</div>',
       results = parse.parse(html, 1, 1);
 
-    expect(results[text].qty).toBe(1);
-    expect(results[text2].qty).toBe(1);
+    expect(results.phrases[text].qty).toBe(1);
+    expect(results.phrases[text2].qty).toBe(1);
   });
 
   it('groups by clusters - simple quantity test', function () {
@@ -68,7 +68,7 @@ describe('parse.js', function () {
       html = '<div>' + text + '</div><div>' + text2 + '</div>',
       results = parse.parse(html, 1, 1);
 
-    expect(results[text].qty).toBe(2);
+    expect(results.phrases[text].qty).toBe(2);
   });
 
   it('groups by clusters - min test', function () {
@@ -77,7 +77,7 @@ describe('parse.js', function () {
       html = '<div>' + text + '</div><div>' + text2 + '</div>',
       results = parse.parse(html, 2, 2);
 
-    expect(results[text + ' ' + text2].qty).toBe(1);
+    expect(results.phrases[text + ' ' + text2].qty).toBe(1);
   });
 
   it('groups by clusters - min/max test', function () {
@@ -86,16 +86,24 @@ describe('parse.js', function () {
       html = '<div>' + text + '</div><div>' + text2 + '</div>',
       results = parse.parse(html, 1, 2);
 
-    expect(results[text].qty).toBe(1);
-    expect(results[text2].qty).toBe(1);
-    expect(results[text + ' ' + text2].qty).toBe(1);
+    expect(results.phrases[text].qty).toBe(1);
+    expect(results.phrases[text2].qty).toBe(1);
+    expect(results.phrases[text + ' ' + text2].qty).toBe(1);
   });
 
   it('groups by clusters - simple real html test', function () {
     var html = '<!DOCTYPE html>\n<html xmlns="http://www.w3.org/1999/xhtml">\n<head>\n    <title></title>\n</head>\n<body>\n    Hello\n</body>\n</html>',
       results = parse.parse(html, 1, 1);
 
-    expect(results['hello'].qty).toBe(1);
+    expect(results.phrases['hello'].qty).toBe(1);
+  });
+
+  it('locates urls', function () {
+    var html = '<!DOCTYPE html>\n<html xmlns="http://www.w3.org/1999/xhtml">\n<head>\n    <title></title>\n</head>\n<body>\n    Hello\n<a href="http://www.google.com">Google</a>\n</body>\n</html>',
+      results = parse.parse(html, 1, 1);
+
+    expect(results.urls.length).toBe(1);
+    expect(results.urls[0]).toBe('http://www.google.com');
   });
 
 });
