@@ -1,0 +1,22 @@
+﻿var fetch = require('../app/fetch.js');
+
+describe('fetch.js', function () {
+  it('should work - sanity test', function () {
+    expect(1).toBe(1);
+  });
+
+  it('should fetch google', function (done) {
+    fetch.URL('http://www.google.com', function (res) {
+      expect(res.statusCode).toBe(200);
+      done();
+    });
+  });
+
+  it('should fetch facebook', function (done) {
+    fetch.URL('http://www.facebook.com', function (res) {
+      expect(res.statusCode).toBe(200);
+      done();
+    });
+  });
+
+});
