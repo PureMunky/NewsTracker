@@ -7,14 +7,14 @@ describe('fetch.js', function () {
 
   it('should fetch google', function (done) {
     fetch.URL('http://www.google.com', function (res) {
-      expect(res.statusCode).toBe(200);
+      expect(JSON.stringify(res)).toBe('');
       done();
     });
   });
 
   it('should fetch facebook', function (done) {
     fetch.URL('http://www.facebook.com', function (res) {
-      expect(res.statusCode).toBe(200);
+      expect(JSON.stringify(res)).toBe('');
       done();
     });
   });
