@@ -30,7 +30,7 @@ function _parse(data, clusterMin, clusterMax) {
 }
 
 function _stripHtmlTags(data) {
-  return data.replace(/<[^>]*>/g, ' ').replace(/\s{2,}/g, ' ').trim();
+  return data.replace(/<[^>]*>/g, ' ').replace(/\s{2,}/g, ' ').trim().toLowerCase();
 }
 
 exports.parse = _parse;

@@ -12,6 +12,13 @@ describe('parse.js', function () {
     expect(results).toBe(html);
   });
 
+  it('lowercases results', function () {
+    var html = 'Testing',
+      results = parse.html(html);
+
+    expect(results).toBe('testing');
+  });
+
   it('strips out html tags - single tag', function () {
     var text = 'test',
       html = '<div>' + text + '</div>',
@@ -35,6 +42,13 @@ describe('parse.js', function () {
       results = parse.html(html);
 
     expect(results).toBe(text + ' ' + text2);
+  });
+
+  it('strips out html tags - simple real html test', function () {
+    var html = '<!DOCTYPE html>\n<html xmlns="http://www.w3.org/1999/xhtml">\n<head>\n    <title></title>\n</head>\n<body>\n    Hello\n</body>\n</html>',
+      results = parse.html(html);
+
+    expect(results).toBe('hello');
   });
 
   it('groups by clusters - simple test', function () {
@@ -69,4 +83,5 @@ describe('parse.js', function () {
     expect(results[text2].qty).toBe(1);
     expect(results[text + ' ' + text2].qty).toBe(1);
   });
+
 });
