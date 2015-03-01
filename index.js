@@ -1,14 +1,7 @@
-var http = require('http');
-var fs = require('fs');
+var express = require('express');
 
-http.createServer(function(req, res) {
-  fs.readFile('index.html', function (err, data) {
-    res.writeHead(200, {
-      'Content-Type': 'text/html',
-      'Content-Length': data.length
-    }),
+var app = express();
 
-    res.write(data);
-    res.end();
-  });
-}).listen(1337, '127.0.0.1')
+app.use(express.static(__dirname));
+
+app.listen(1337);
