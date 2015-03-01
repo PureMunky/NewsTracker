@@ -2,11 +2,25 @@
 
 // Parses string data into a logical phrases.
 function _parse(data, clusterMin, clusterMax) {
+  var urls = _getUrls(data),
+    phrases = _getPhrases(data, clusterMin, clusterMax);
+
+  return {
+    phrases: phrases,
+    urls: urls
+  };
+}
+
+// removes all html tags and lower cases the data.
+function _stripHtmlTags(data) {
+  return data.replace(/<[^>]*>/g, ' ').replace(/\s{2,}/g, ' ').trim().toLowerCase();
+}
+
+function _getPhrases(data, clusterMin, clusterMax) {
   var stripped = _stripHtmlTags(data).split(' '),
-    urls = _getUrls(data),
-    phrases = {},
     i = 0,
     j = 0,
+    phrases = {},
     phrase;
 
   for (i = 0; i < stripped.length + 1 - (clusterMax - clusterMin) ; i++) {
@@ -28,15 +42,7 @@ function _parse(data, clusterMin, clusterMax) {
     }
   }
 
-  return {
-    phrases: phrases,
-    urls: urls
-  };
-}
-
-// removes all html tags and lower cases the data.
-function _stripHtmlTags(data) {
-  return data.replace(/<[^>]*>/g, ' ').replace(/\s{2,}/g, ' ').trim().toLowerCase();
+  return phrases;
 }
 
 function _getUrls(data) {
@@ -49,6 +55,8 @@ function _getUrls(data) {
   for (i = 0; i < rtnUrls.length; i++) {
     rtnUrls[i] = rtnUrls[i].split(/"/)[0];
   }
+
+  //rtnUrls = data.match(/href=[\'"]?([^\'" >]+)/g);
 
   return rtnUrls;
 }
