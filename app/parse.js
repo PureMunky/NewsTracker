@@ -1,5 +1,6 @@
 ﻿'use strict';
 
+// Parses string data into a logical phrases.
 function _parse(data, clusterMin, clusterMax) {
   var stripped = _stripHtmlTags(data).split(' '),
   rtnObj = {},
@@ -29,6 +30,7 @@ function _parse(data, clusterMin, clusterMax) {
   return rtnObj;
 }
 
+// removes all html tags and lower cases the data.
 function _stripHtmlTags(data) {
   return data.replace(/<[^>]*>/g, ' ').replace(/\s{2,}/g, ' ').trim().toLowerCase();
 }
