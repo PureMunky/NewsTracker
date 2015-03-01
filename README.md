@@ -1,4 +1,5 @@
 # NewsTracker
+<img src="https://travis-ci.org/PureMunky/NewsTracker.svg" data-bindattr-790="790" title="Build Status Images"/>
 
 Keeps track of topics in the news and analyzes when something is a trending topic.
 
