@@ -6,6 +6,13 @@ describe('fetch.js', function () {
     expect(1).toBe(1);
   });
 
+  it('should fetch locally', function (done) {
+    fetch.File('index.html', function (err, data) {
+      expect(data.length).toBeGreaterThan(0);
+      done();
+    });
+  });
+
   //it('should fetch google', function (done) {
   //  fetch.URL('http://www.google.com', function (res) {
   //    expect(JSON.stringify(res)).toBe('');
