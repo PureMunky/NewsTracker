@@ -1,0 +1,23 @@
+{
+  "name": "NewsTracker",
+  "version": "0.0.1",
+  "description": "Tracks live changes to new sources and identifies trends.",
+  "main": "index.js",
+  "dependencies": {
+    "express": "~4.12.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PureMunky/NewsTracker.git"
+  },
+  "author": "Phil Corbett (@PureMunky)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PureMunky/NewsTracker/issues"
+  },
+  "homepage": "https://github.com/PureMunky/NewsTracker"
+}
