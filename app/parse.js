@@ -1,6 +1,4 @@
 ﻿'use strict';
-exports.parse = _parse;
-exports.html = _stripHtmlTags;
 
 function _parse(data, clusterMin, clusterMax) {
   var stripped = _stripHtmlTags(data).split(' '),
@@ -30,6 +28,10 @@ function _parse(data, clusterMin, clusterMax) {
 
   return rtnObj;
 }
+
 function _stripHtmlTags(data) {
   return data.replace(/<[^>]*>/g, ' ').replace(/\s{2,}/g, ' ').trim();
 }
+
+exports.parse = _parse;
+exports.html = _stripHtmlTags;
