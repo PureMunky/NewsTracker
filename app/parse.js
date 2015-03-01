@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-// Parses string data into a logical phrases.
+// Processes string data for information.
 function _parse(data, clusterMin, clusterMax) {
   var urls = _getUrls(data),
     phrases = _getPhrases(data, clusterMin, clusterMax);
@@ -16,6 +16,7 @@ function _stripHtmlTags(data) {
   return data.replace(/<[^>]*>/g, ' ').replace(/\s{2,}/g, ' ').trim().toLowerCase();
 }
 
+// parses string data into logical phrases.
 function _getPhrases(data, clusterMin, clusterMax) {
   var stripped = _stripHtmlTags(data).split(' '),
     i = 0,
@@ -45,6 +46,7 @@ function _getPhrases(data, clusterMin, clusterMax) {
   return phrases;
 }
 
+// parses html for urls.
 function _getUrls(data) {
   var rtnUrls = [],
     i = 0;
