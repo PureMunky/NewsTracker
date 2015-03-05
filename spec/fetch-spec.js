@@ -9,8 +9,8 @@ describe('fetch.js', function () {
 
   // Test local pull.
   it('should fetch locally', function (done) {
-    fetch.File('index.html', function (err, data) {
-      expect(data.length).toBeGreaterThan(0);
+    fetch.File('index.html', function (body) {
+      expect(body.length).toBeGreaterThan(0);
       done();
     });
   });

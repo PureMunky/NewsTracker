@@ -18,7 +18,13 @@ function _fetchURL(url, callback) {
 };
 
 function _fetchFile(path, callback) {
-  fs.readFile(path, { encoding: 'utf-8' }, callback);
+  fs.readFile(path, { encoding: 'utf-8' }, function (err, data) {
+    var body = data;
+
+    if (err !== null) body = '';
+
+    callback(body);
+  });
 }
 
 exports.URL = _fetchURL;
