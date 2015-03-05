@@ -4,7 +4,17 @@ var http = require('http'),
   fs = require('fs');
 
 function _fetchURL(url, callback) {
-  http.get(url, callback);
+  http.get(url, function (res) {
+    var body = '';
+
+    res.on('data', function (chunk) {
+      body += chunk;
+    });
+
+    res.on('end', function () {
+      callback(body);
+    })
+  });
 };
 
 function _fetchFile(path, callback) {

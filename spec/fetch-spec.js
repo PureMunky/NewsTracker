@@ -17,18 +17,9 @@ describe('fetch.js', function () {
 
   // Test url pull.
   it('should fetch www.philcorbett.net', function (done) {
-    fetch.URL('http://www.philcorbett.net', function (res) {
-      var body = '';
-      
-      res.on('data', function (chunk) {
-        body += chunk;
-      });
-
-      res.on('end', function () {
-        expect(body.length).toBeGreaterThan(0);
-        done();
-      });
-      
+    fetch.URL('http://www.philcorbett.net', function (body) {
+      expect(body.length).toBeGreaterThan(0);
+      done();
     });
   });
 
