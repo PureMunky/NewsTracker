@@ -1,20 +1,33 @@
 ﻿'use strict';
 
 var http = require('http'),
+  https = require('https'),
   fs = require('fs');
 
-function _fetchURL(url, callback) {
-  http.get(url, function (res) {
-    var body = '';
+function resolve(res, callback) {
+  var body = '';
 
-    res.on('data', function (chunk) {
-      body += chunk;
-    });
-
-    res.on('end', function () {
-      callback(body);
-    })
+  res.on('data', function (chunk) {
+    body += chunk;
   });
+
+  res.on('end', function () {
+    callback(body);
+  })
+}
+
+function _fetchURL(url, callback) {
+  if (url.indexOf('https') == 0) {
+    https.get(url, function (res) {
+      resolve(res, callback);
+    });
+  } else if (url.indexOf('http') == 0) {
+    http.get(url, function (res) {
+      resolve(res, callback);
+    });
+  } else {
+    callback('');
+  }
 };
 
 function _fetchFile(path, callback) {
