@@ -43,5 +43,5 @@ function _fetchFile(path, callback) {
   });
 }
 
-exports.URL = _fetchURL;
-exports.File = _fetchFile;
+module.exports.URL = _fetchURL;
+module.exports.File = _fetchFile;

@@ -68,5 +68,5 @@ function _getUrls(data) {
   return rtnUrls;
 }
 
-exports.parse = _parse;
-exports.html = _stripHtmlTags;
+module.exports.parse = _parse;
+module.exports.html = _stripHtmlTags;

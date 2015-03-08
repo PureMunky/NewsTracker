@@ -98,4 +98,4 @@ function _sum(phrases) {
   }
 }
 
-exports.scan = _scan;
+module.exports.scan = _scan;
