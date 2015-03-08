@@ -13,7 +13,7 @@ function resolve(res, callback) {
 
   res.on('end', function () {
     callback(body);
-  })
+  });
 }
 
 function _fetchURL(url, callback) {
