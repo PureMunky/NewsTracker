@@ -1,19 +1,18 @@
 ﻿'use strict';
 
 var fetch = require('./fetch.js'),
-  parse = require('./parse.js');
-
-var results = {};
-var summary = {};
-var scanCount = 0;
-var scanned = 0;
+  parse = require('./parse.js'),
+  results = {},
+  summary = {},
+  scanCount = 0,
+  scanned = 0;
 
 // Scans all the urls to the depth and filters based on criteria.
 function _scan(urls, depth, greaterThan, callback) {
-  _reset();
-
   var i = 0;
   var urlArray = (typeof urls === 'string') ? [urls] : urls;
+
+  _reset();
 
   for (i = 0; i < urlArray.length; i++) {
     _scanUrl(urlArray[i], depth, _finished(greaterThan, callback));
