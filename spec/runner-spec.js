@@ -96,4 +96,24 @@ describe('runner.js', function () {
     });
   });
 
+  it('compares previous results', function (done) {
+    var url = 'http://www.philcorbett.net',
+      previous = {};
+
+    runner.scan(url, { depth: 2, previous: previous }, function (err, summary) {
+      var i = 0;
+      var keys = Object.keys(summary.phrases);
+
+      // Shouldn't return an error;
+      expect(err).toBe(null);
+
+      for (i = 0; i < keys.length; i++) {
+        // All phrases should be greater than the threshold defined.
+        expect(summary.phrases[keys[i]].perc).toBe(Infinity);
+      }
+
+      done();
+    });
+  });
+
 });

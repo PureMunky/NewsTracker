@@ -2,6 +2,7 @@
 
 var fetch = require('./fetch.js'),
   parse = require('./parse.js'),
+  compare = require('./compare.js'),
   results = {},
   summary = {},
   scanCount = 0,
@@ -21,7 +22,7 @@ function _scan(urls, options, callback) {
   _reset();
 
   for (i = 0; i < urlArray.length; i++) {
-    _scanUrl(urlArray[i], _options.depth, _options.blacklist, _finished(_options.greaterThan, callback));
+    _scanUrl(urlArray[i], _options.depth, _options.blacklist, _finished(_options.greaterThan, _options.previous, callback));
   }
 };
 
@@ -36,9 +37,12 @@ function _reset() {
 }
 
 // Creates a the function to be called at the end.
-function _finished(greaterThan, callback) {
+function _finished(greaterThan, previous, callback) {
   return function () {
     _filter(summary.phrases, greaterThan);
+
+    if (previous) { compare.compare(previous, summary.phrases); }
+
     callback(null, summary);
   }
 }
