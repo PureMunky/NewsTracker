@@ -22,10 +22,14 @@ function _fetchURL(url, callback) {
   if (url.indexOf('https') == 0) {
     https.get(url, function (res) {
       _resolve(res, callback);
+    }).on('error', function (e) {
+      callback(e, null);
     });
   } else if (url.indexOf('http') == 0) {
     http.get(url, function (res) {
       _resolve(res, callback);
+    }).on('error', function (e) {
+      callback(e, null);
     });
   } else {
     callback(new Error('Not a Url'), null);

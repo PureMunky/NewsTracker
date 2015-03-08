@@ -13,7 +13,7 @@ app.use(express.static(__dirname));
 function scan() {
   console.log('scanning');
   runner.scan(config.sources, { depth: 2, previous: JSON.parse(previous) }, function (err, results) {
-    console.log(results);
+    console.log(results.changes);
     previous = JSON.stringify(results.phrases);
 
     setTimeout(scan, config.scanFrequency);

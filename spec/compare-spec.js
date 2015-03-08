@@ -18,9 +18,9 @@ describe('compare.js', function () {
         test: { phrase: 'test', qty: 1 }
       };
 
-    var results = compare.compare(first, second);
+    compare.compare(first, second);
 
-    expect(results.test.qty).toBe(1);
+    expect(second.test.qty).toBe(1);
   });
 
   it('compares - percentage', function () {
@@ -57,4 +57,37 @@ describe('compare.js', function () {
     expect(second.hello.perc).toBe(Infinity);
   });
 
+  it('compares - all new changes', function () {
+    var second = {
+      test: { phrase: 'test', qty: 1 },
+      mess: { phrase: 'mess', qty: 2 },
+      hello: { phrase: 'hello', qty: 1 }
+    };
+
+    var changes = compare.compare(null, second);
+
+    expect(changes.test.perc).toBe(Infinity);
+    expect(changes.mess.perc).toBe(Infinity);
+    expect(changes.hello.new).toBe(true);
+    expect(changes.hello.perc).toBe(Infinity);
+  });
+
+  it('compares - changes', function () {
+    var first = {
+      test: { phrase: 'test', qty: 1 },
+      mess: { phrase: 'mess', qty: 1 }
+    },
+      second = {
+        test: { phrase: 'test', qty: 1 },
+        mess: { phrase: 'mess', qty: 2 },
+        hello: { phrase: 'hello', qty: 1 }
+      };
+
+    var changes = compare.compare(first, second);
+
+    expect(changes.test).toBeUndefined();
+    expect(changes.mess.perc).toBe(.5);
+    expect(changes.hello.new).toBe(true);
+    expect(changes.hello.perc).toBe(Infinity);
+  });
 });

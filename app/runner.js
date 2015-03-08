@@ -32,6 +32,7 @@ function _reset() {
   summary = {};
   summary.phrases = {};
   summary.urls = [];
+  summary.changes = {};
   scanCount = 0;
   scanned = 0;
 }
@@ -41,7 +42,7 @@ function _finished(greaterThan, previous, callback) {
   return function () {
     _filter(summary.phrases, greaterThan);
 
-    if (previous) { compare.compare(previous, summary.phrases); }
+    if (previous) { summary.changes = compare.compare(previous, summary.phrases); }
 
     callback(null, summary);
   }
