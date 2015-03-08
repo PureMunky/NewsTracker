@@ -90,4 +90,23 @@ describe('compare.js', function () {
     expect(changes.hello.new).toBe(true);
     expect(changes.hello.perc).toBe(Infinity);
   });
+
+  it('compares - change threshold', function () {
+    var first = {
+      test: { phrase: 'test', qty: 1 },
+      mess: { phrase: 'mess', qty: 1 }
+    },
+      second = {
+        test: { phrase: 'test', qty: 1 },
+        mess: { phrase: 'mess', qty: 2 },
+        hello: { phrase: 'hello', qty: 1 }
+      };
+
+    var changes = compare.compare(first, second, { percChange: .5 });
+
+    expect(changes.test).toBeUndefined();
+    expect(changes.mess).toBeUndefined();
+    expect(changes.hello.new).toBe(true);
+    expect(changes.hello.perc).toBe(Infinity);
+  });
 });

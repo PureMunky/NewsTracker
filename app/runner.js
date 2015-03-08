@@ -17,12 +17,13 @@ function _scan(urls, options, callback) {
 
   _options.depth = options.depth || 1,
   _options.greaterThan = options.greaterThan || 7,
-  _options.blacklist = options.blacklist || {};
+  _options.blacklist = options.blacklist || {},
+  _options.percChange = options.percChange || 0.1;
 
   _reset();
 
   for (i = 0; i < urlArray.length; i++) {
-    _scanUrl(urlArray[i], _options.depth, _options.blacklist, _finished(_options.greaterThan, _options.previous, callback));
+    _scanUrl(urlArray[i], _options.depth, _options.blacklist, _finished(_options.greaterThan, _options.previous, _options.percChange, callback));
   }
 };
 
@@ -38,11 +39,11 @@ function _reset() {
 }
 
 // Creates a the function to be called at the end.
-function _finished(greaterThan, previous, callback) {
+function _finished(greaterThan, previous, percChange, callback) {
   return function () {
     _filter(summary.phrases, greaterThan);
 
-    if (previous) { summary.changes = compare.compare(previous, summary.phrases); }
+    if (previous) { summary.changes = compare.compare(previous, summary.phrases, { percChange: percChange }); }
 
     callback(null, summary);
   }

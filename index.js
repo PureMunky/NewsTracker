@@ -12,12 +12,22 @@ app.use(express.static(__dirname));
 
 function scan() {
   console.log('scanning');
-  runner.scan(config.sources, { depth: 2, previous: JSON.parse(previous) }, function (err, results) {
-    console.log(results.changes);
-    previous = JSON.stringify(results.phrases);
+  var prevPhrases = {};
 
+  try {
+    prevPhrases = JSON.parse(previous);
+
+    runner.scan(config.sources, { depth: 2, previous: prevPhrases, percChange: 0.1 }, function (err, results) {
+      console.log(results.changes);
+      previous = JSON.stringify(results.phrases);
+      setTimeout(scan, config.scanFrequency);
+    });
+  } catch (e) {
+    console.log(e.message);
     setTimeout(scan, config.scanFrequency);
-  });
+
+  }
+
 }
 
 scan();
