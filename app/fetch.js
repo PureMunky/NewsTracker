@@ -13,7 +13,7 @@ function _resolve(res, callback) {
   });
 
   res.on('end', function () {
-    callback(body);
+    callback(null, body);
   });
 }
 
@@ -28,18 +28,14 @@ function _fetchURL(url, callback) {
       _resolve(res, callback);
     });
   } else {
-    callback('');
+    callback(new Error('Not a Url'), null);
   }
 };
 
 // Gets the contents of a file.
 function _fetchFile(path, callback) {
   fs.readFile(path, { encoding: 'utf-8' }, function (err, data) {
-    var body = data;
-
-    if (err !== null) body = '';
-
-    callback(body);
+    callback(err, data);
   });
 }
 

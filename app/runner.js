@@ -39,7 +39,7 @@ function _reset() {
 function _finished(greaterThan, callback) {
   return function () {
     _filter(summary.phrases, greaterThan);
-    callback(summary);
+    callback(null, summary);
   }
 }
 
@@ -49,15 +49,19 @@ function _scanUrl(url, depth, blacklist, doneCallback) {
     scanCount++;
     summary.urls.push(url);
 
-    fetch.URL(url, function (data) {
-      var rtn = parse.parse(data, 1, 3, blacklist);
-      var i = 0;
-      results[url] = data;
+    fetch.URL(url, function (err, data) {
+      var rtn, i;
 
-      _sum(rtn.phrases);
+      if (!err) {
+        rtn = parse.parse(data, 1, 3, blacklist);
+        i = 0;
+        results[url] = data;
 
-      for (i = 0; i < rtn.urls.length; i++) {
-        _scanUrl(rtn.urls[i], depth - 1, blacklist, doneCallback);
+        _sum(rtn.phrases);
+
+        for (i = 0; i < rtn.urls.length; i++) {
+          _scanUrl(rtn.urls[i], depth - 1, blacklist, doneCallback);
+        }
       }
 
       scanned++;

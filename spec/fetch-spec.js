@@ -9,7 +9,10 @@ describe('fetch.js', function () {
 
   // Test local pull.
   it('should fetch locally', function (done) {
-    fetch.File('index.html', function (body) {
+    fetch.File('index.html', function (err, body) {
+      // Shouldn't return an error;
+      expect(err).toBe(null);
+
       expect(body.length).toBeGreaterThan(0);
       done();
     });
@@ -17,7 +20,10 @@ describe('fetch.js', function () {
 
   // Test url pull.
   it('should fetch www.philcorbett.net', function (done) {
-    fetch.URL('http://www.philcorbett.net', function (body) {
+    fetch.URL('http://www.philcorbett.net', function (err, body) {
+      // Shouldn't return an error;
+      expect(err).toBe(null);
+
       expect(body.length).toBeGreaterThan(0);
       done();
     });
