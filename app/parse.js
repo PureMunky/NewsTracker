@@ -15,7 +15,7 @@ function _parse(data, clusterMin, clusterMax, blacklist) {
 
 // removes all html tags and lower cases the data.
 function _stripHtmlTags(data) {
-  return data.replace(/<[^>]*>/g, ' ').replace(/\s{2,}/g, ' ').trim().toLowerCase();
+  return data.replace(/<[^>]*>/g, ' ').replace(/\s{2,}/g, ' ').replace(/[^0-9a-zA-Z]/, '').trim().toLowerCase();
 }
 
 // parses string data into logical phrases.
