@@ -8,14 +8,20 @@ var fetch = require('./fetch.js'),
   scanned = 0;
 
 // Scans all the urls to the depth and filters based on criteria.
-function _scan(urls, depth, greaterThan, blacklist, callback) {
-  var i = 0;
-  var urlArray = (typeof urls === 'string') ? [urls] : urls;
+function _scan(urls, options, callback) {
+  var i = 0,
+    urlArray = (typeof urls === 'string') ? [urls] : urls,
+    _options = options || {},
+    callback = callback || options;
+
+  _options.depth = options.depth || 1,
+  _options.greaterThan = options.greaterThan || 7,
+  _options.blacklist = options.blacklist || {};
 
   _reset();
 
   for (i = 0; i < urlArray.length; i++) {
-    _scanUrl(urlArray[i], depth, blacklist, _finished(greaterThan, callback));
+    _scanUrl(urlArray[i], _options.depth, _options.blacklist, _finished(_options.greaterThan, callback));
   }
 };
 
