@@ -119,4 +119,14 @@ describe('parse.js', function () {
     expect(results.urls[0]).toBe('http://www.google.com');
   });
 
+  it('ignores blacklist phrases', function () {
+    var text = 'test testing hello',
+      blacklist = { 'hello': true },
+      results = parse.parse(text, 1, 1, blacklist);
+
+    expect(results.phrases['test'].qty).toBe(1);
+    expect(results.phrases['testing'].qty).toBe(1);
+    expect(results.phrases['hello']).toBeUndefined();
+  });
+
 });

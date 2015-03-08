@@ -10,7 +10,7 @@ app.use(express.static(__dirname));
 
 function scan() {
   console.log('scanning');
-  runner.scan(config.sources, 2, 7, function (results) {
+  runner.scan(config.sources, 2, 7, {}, function (results) {
     console.log(results);
   });
   //setTimeout(scan, config.scanFrequency);

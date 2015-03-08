@@ -1,9 +1,11 @@
 ﻿'use strict';
 
 // Processes string data for information.
-function _parse(data, clusterMin, clusterMax) {
+function _parse(data, clusterMin, clusterMax, blacklist) {
   var urls = _getUrls(data),
-    phrases = _getPhrases(data, clusterMin, clusterMax);
+    blacklist = blacklist || {},
+    phrases = _getPhrases(data, clusterMin, clusterMax, blacklist);
+
 
   return {
     phrases: phrases,
@@ -17,27 +19,30 @@ function _stripHtmlTags(data) {
 }
 
 // parses string data into logical phrases.
-function _getPhrases(data, clusterMin, clusterMax) {
+function _getPhrases(data, clusterMin, clusterMax, blacklist) {
   var stripped = _stripHtmlTags(data).split(' '),
     i = 0,
     j = 0,
     phrases = {},
     phrase;
 
+  // Loop through the start phrases.
   for (i = 0; i < stripped.length + 1 - (clusterMax - clusterMin) ; i++) {
     phrase = '';
 
+    // Loop through the cluster length from start.
     for (j = 0; j < clusterMax && i + j <= stripped.length; j++) {
       phrase += (j > 0 ? ' ' : '') + stripped[i + j];
 
-      if (j + 1 >= clusterMin) {
+      // Add phrase if not blacklisted and cluster is large enough.
+      if (!blacklist[phrase] && j + 1 >= clusterMin) {
         if (phrases[phrase]) {
           phrases[phrase].qty++;
         } else {
           phrases[phrase] = {
             text: phrase,
             qty: 1
-          }
+          };
         }
       }
     }

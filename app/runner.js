@@ -8,14 +8,14 @@ var fetch = require('./fetch.js'),
   scanned = 0;
 
 // Scans all the urls to the depth and filters based on criteria.
-function _scan(urls, depth, greaterThan, callback) {
+function _scan(urls, depth, greaterThan, blacklist, callback) {
   var i = 0;
   var urlArray = (typeof urls === 'string') ? [urls] : urls;
 
   _reset();
 
   for (i = 0; i < urlArray.length; i++) {
-    _scanUrl(urlArray[i], depth, _finished(greaterThan, callback));
+    _scanUrl(urlArray[i], depth, blacklist, _finished(greaterThan, callback));
   }
 };
 
@@ -38,20 +38,20 @@ function _finished(greaterThan, callback) {
 }
 
 // Scans a url to depth and signals finished if it's the last url.
-function _scanUrl(url, depth, doneCallback) {
+function _scanUrl(url, depth, blacklist, doneCallback) {
   if (!results[url] && depth > 0) {
     scanCount++;
     summary.urls.push(url);
 
     fetch.URL(url, function (data) {
-      var rtn = parse.parse(data, 1, 3);
+      var rtn = parse.parse(data, 1, 3, blacklist);
       var i = 0;
       results[url] = data;
 
       _sum(rtn.phrases);
 
       for (i = 0; i < rtn.urls.length; i++) {
-        _scanUrl(rtn.urls[i], depth - 1, doneCallback);
+        _scanUrl(rtn.urls[i], depth - 1, blacklist, doneCallback);
       }
 
       scanned++;

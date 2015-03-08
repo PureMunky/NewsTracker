@@ -13,7 +13,7 @@ describe('runner.js', function () {
   it('scans a url', function (done) {
     var url = 'http://www.philcorbett.net';
 
-    runner.scan(url, 1, 7, function (results) {
+    runner.scan(url, 1, 7, {}, function (results) {
       //Url should be passed through scanning.
       expect(results.urls.length).toBe(1);
 
@@ -26,7 +26,7 @@ describe('runner.js', function () {
   it('scans mulitple urls', function (done) {
     var urls = ['http://www.philcorbett.net', 'http://blog.philcorbett.net'];
 
-    runner.scan(urls, 1, 7, function (summary) {
+    runner.scan(urls, 1, 7, {}, function (summary) {
       //Urls should be passed through scanning.
       expect(summary.urls[0]).toBe(urls[0]);
       expect(summary.urls[1]).toBe(urls[1]);
@@ -40,7 +40,7 @@ describe('runner.js', function () {
   it('scans sub urls', function (done) {
     var url = 'http://www.philcorbett.net';
 
-    runner.scan(url, 2, 7, function (summary) {
+    runner.scan(url, 2, 7, {}, function (summary) {
       // Main url should have sub urls in it.
       expect(summary.urls.length).toBeGreaterThan(1);
 
@@ -53,11 +53,11 @@ describe('runner.js', function () {
 
   })
   
-  it('filters results', function (done) {
+  it('filters phrases based on frequency', function (done) {
     var url = 'http://www.philcorbett.net',
       greaterThan = 7;
 
-    runner.scan(url, 2, greaterThan, function (summary) {
+    runner.scan(url, 2, greaterThan, {}, function (summary) {
       var i = 0;
       var keys = Object.keys(summary.phrases);
 
@@ -65,6 +65,18 @@ describe('runner.js', function () {
         // All phrases should be greater than the threshold defined.
         expect(summary.phrases[keys[i]].qty).toBeGreaterThan(greaterThan);
       }
+
+      done();
+    });
+  });
+
+  it('filters blacklists', function (done) {
+    var url = 'http://www.philcorbett.net',
+      blacklist = {'topic': true};
+
+    runner.scan(url, 2, 7, blacklist, function (summary) {
+
+      expect(summary.phrases['topic']).toBeUndefined();
 
       done();
     });
