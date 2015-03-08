@@ -62,6 +62,7 @@ describe('runner.js', function () {
       var keys = Object.keys(summary.phrases);
 
       for (i = 0; i < keys.length; i++) {
+        // All phrases should be greater than the threshold defined.
         expect(summary.phrases[keys[i]].qty).toBeGreaterThan(greaterThan);
       }
 

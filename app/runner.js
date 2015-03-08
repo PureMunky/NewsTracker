@@ -1,14 +1,15 @@
 ﻿'use strict';
 
-var fetch = require('./fetch.js');
-var parse = require('./parse.js');
+var fetch = require('./fetch.js'),
+  parse = require('./parse.js');
 
 var results = {};
 var summary = {};
 var scanCount = 0;
 var scanned = 0;
 
-exports.scan = function (urls, depth, greaterThan, callback) {
+// Scans all the urls to the depth and filters based on criteria.
+function _scan(urls, depth, greaterThan, callback) {
   _reset();
 
   var i = 0;
@@ -19,6 +20,7 @@ exports.scan = function (urls, depth, greaterThan, callback) {
   }
 };
 
+// Brings the class back to ground-zero.
 function _reset() {
   results = {};
   summary = {};
@@ -28,6 +30,7 @@ function _reset() {
   scanned = 0;
 }
 
+// Creates a the function to be called at the end.
 function _finished(greaterThan, callback) {
   return function () {
     _filter(summary.phrases, greaterThan);
@@ -35,6 +38,7 @@ function _finished(greaterThan, callback) {
   }
 }
 
+// Scans a url to depth and signals finished if it's the last url.
 function _scanUrl(url, depth, doneCallback) {
   if (!results[url] && depth > 0) {
     scanCount++;
@@ -59,6 +63,7 @@ function _scanUrl(url, depth, doneCallback) {
   }
 }
 
+// Removes phrases below the threshold.
 function _filter(phrases, greaterThan) {
   if (phrases) {
     var i = 0;
@@ -72,6 +77,7 @@ function _filter(phrases, greaterThan) {
   }
 }
 
+// Takes the data retrived and adds its results to the summary.
 function _sum(phrases) {
   if (phrases) {
     var i = 0;
@@ -86,3 +92,5 @@ function _sum(phrases) {
     }
   }
 }
+
+exports.scan = _scan;
