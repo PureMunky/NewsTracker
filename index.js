@@ -11,7 +11,7 @@ app.use(express.static(__dirname));
 //app.listen(1337);
 
 function scan() {
-  console.log('scanning');
+  console.log('---------- scanning: ' + new Date() + ' -------------');
   var prevPhrases = {};
 
   try {
