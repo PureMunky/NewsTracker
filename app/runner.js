@@ -23,7 +23,17 @@ function _scan(urls, options, callback) {
   _reset();
 
   for (i = 0; i < urlArray.length; i++) {
-    _scanUrl(urlArray[i], _options.depth, _options.blacklist, _finished(_options.greaterThan, _options.previous, _options.percChange, callback));
+    _scanUrl(
+      urlArray[i],
+      _options.depth,
+      _options.blacklist,
+      _finished(
+        _options.greaterThan,
+        _options.previous,
+        _options.percChange,
+        callback
+      )
+    );
   }
 };
 
