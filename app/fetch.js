@@ -37,6 +37,7 @@ function _fetchURL(url, callback) {
   }
 }
 
+// Gets a url and checks the robots.txt file first to determine if the url is allowed.
 function _fetchURLConsiderRobot (url, callback) {
   _fetchURL(robots.getLocation(url), function (err, body) {
     if(!err) {

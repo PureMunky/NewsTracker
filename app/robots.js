@@ -3,6 +3,7 @@
 var urlReq = require('url');
 var storedRobot = {};
 
+// Checks if a url is disallowed by the passed (or stored) robots.txt data.
 function _check (robot, url) {
   var rob = url ? _parseRobotFile(robot) : storedRobot,
     url = url || robot,
@@ -20,6 +21,7 @@ function _check (robot, url) {
   return rtn;
 }
 
+// Parses a robots.txt file and returns an object representing the data.
 function _parseRobotFile(robot) {
   var result = {
     UserAgent: '*',
@@ -39,10 +41,12 @@ function _parseRobotFile(robot) {
   return result;
 }
 
+// Parses and stores a robots.txt for future validations.
 function _storeRobotFile (robot) {
   storedRobot = _parseRobotFile(robot);
 }
 
+// Takes a url and determines the location of the robots.txt file.
 function _getLocation (url) {
   return urlReq.resolve(url, '/robots.txt');
 }
