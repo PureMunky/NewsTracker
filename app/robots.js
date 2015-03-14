@@ -1,5 +1,6 @@
 'use strict';
 
+var urlReq = require('url');
 var storedRobot = {};
 
 function _check (robot, url) {
@@ -43,18 +44,8 @@ function _storeRobotFile (robot) {
 }
 
 function _getLocation (url) {
-  var rtn = '',
-    prefix = 'http://';
-
-if(url.indexOf('https://') > -1) {
-  prefix = 'https://';
-}
-
-  url = url.replace(/https?:\/\//, '');
-
-  url = prefix + url.substring(0, url.indexOf('/') + 1) + 'robots.txt'; 
-
-  return url;
+  var parsedUrl = urlReq.parse(url);
+  return parsedUrl.protocol + '//' + parsedUrl.host + '/robots.txt';
 }
 
 module.exports.parse = _parseRobotFile;
