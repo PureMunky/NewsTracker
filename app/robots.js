@@ -44,8 +44,7 @@ function _storeRobotFile (robot) {
 }
 
 function _getLocation (url) {
-  var parsedUrl = urlReq.parse(url);
-  return parsedUrl.protocol + '//' + parsedUrl.host + '/robots.txt';
+  return urlReq.resolve(url, '/robots.txt');
 }
 
 module.exports.parse = _parseRobotFile;
