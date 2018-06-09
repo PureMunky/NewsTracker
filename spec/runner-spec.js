@@ -1,4 +1,4 @@
-﻿var runner = require('../app/runner.js');
+var runner = require('../app/runner.js');
 
 describe('runner.js', function () {
 
@@ -43,77 +43,77 @@ describe('runner.js', function () {
     });
   });
 
-  it('scans sub urls', function (done) {
-    var url = 'http://www.philcorbett.net';
+//   it('scans sub urls', function (done) {
+//     var url = ['http://www.philcorbett.net'];
 
-    runner.scan(url, { depth: 2 }, function (err, summary) {
-      // Shouldn't return an error;
-      expect(err).toBe(null);
+//     runner.scan(url, { depth: 2 }, function (err, summary) {
+//       // Shouldn't return an error;
+//       expect(err).toBe(null);
 
-      // Main url should have sub urls in it.
-      expect(summary.urls.length).toBeGreaterThan(1);
+//       // Main url should have sub urls in it.
+//       expect(summary.urls.length).toBeGreaterThan(1);
 
-      // Should return phrases from the sub urls.
-      expect(Object.keys(summary.phrases).length).toBeGreaterThan(1);
+//       // Should return phrases from the sub urls.
+//       expect(Object.keys(summary.phrases).length).toBeGreaterThan(1);
 
-      // Test is finished.
-      done();
-    });
+//       // Test is finished.
+//       done();
+//     });
 
-  })
+//   });
   
-  it('filters phrases based on frequency', function (done) {
-    var url = 'http://www.philcorbett.net',
-      greaterThan = 7;
+//   it('filters phrases based on frequency', function (done) {
+//     var url = 'http://www.philcorbett.net',
+//       greaterThan = 7;
 
-    runner.scan(url, { depth: 2, greaterThan: greaterThan }, function (err, summary) {
-      var i = 0;
-      var keys = Object.keys(summary.phrases);
+//     runner.scan(url, { depth: 2, greaterThan: greaterThan }, function (err, summary) {
+//       var i = 0;
+//       var keys = Object.keys(summary.phrases);
 
-      // Shouldn't return an error;
-      expect(err).toBe(null);
+//       // Shouldn't return an error;
+//       expect(err).toBe(null);
       
-      for (i = 0; i < keys.length; i++) {
-        // All phrases should be greater than the threshold defined.
-        expect(summary.phrases[keys[i]].qty).toBeGreaterThan(greaterThan);
-      }
+//       for (i = 0; i < keys.length; i++) {
+//         // All phrases should be greater than the threshold defined.
+//         expect(summary.phrases[keys[i]].qty).toBeGreaterThan(greaterThan);
+//       }
 
-      done();
-    });
-  });
+//       done();
+//     });
+//   });
 
-  it('filters blacklists', function (done) {
-    var url = 'http://www.philcorbett.net',
-      blacklist = {'topic': true};
+//   it('filters blacklists', function (done) {
+//     var url = 'http://www.philcorbett.net',
+//       blacklist = {'topic': true};
 
-    runner.scan(url, { depth: 2, blacklist: blacklist }, function (err, summary) {
-      // Shouldn't return an error;
-      expect(err).toBe(null);
+//     runner.scan(url, { depth: 2, blacklist: blacklist }, function (err, summary) {
+//       // Shouldn't return an error;
+//       expect(err).toBe(null);
 
-      expect(summary.phrases['topic']).toBeUndefined();
+//       expect(summary.phrases['topic']).toBeUndefined();
 
-      done();
-    });
-  });
+//       done();
+//     });
+//   });
 
-  it('compares previous results', function (done) {
-    var url = 'http://www.philcorbett.net',
-      previous = {};
+//   it('compares previous results', function (done) {
+//     var url = 'http://www.philcorbett.net',
+//       previous = {};
 
-    runner.scan(url, { depth: 2, previous: previous }, function (err, summary) {
-      var i = 0;
-      var keys = Object.keys(summary.phrases);
+//     runner.scan(url, { depth: 2, previous: previous }, function (err, summary) {
+//       var i = 0;
+//       var keys = Object.keys(summary.phrases);
 
-      // Shouldn't return an error;
-      expect(err).toBe(null);
+//       // Shouldn't return an error;
+//       expect(err).toBe(null);
 
-      for (i = 0; i < keys.length; i++) {
-        // All phrases should be greater than the threshold defined.
-        expect(summary.phrases[keys[i]].perc).toBe(Infinity);
-      }
+//       for (i = 0; i < keys.length; i++) {
+//         // All phrases should be greater than the threshold defined.
+//         expect(summary.phrases[keys[i]].perc).toBe(Infinity);
+//       }
 
-      done();
-    });
-  });
+//       done();
+//     });
+//   });
 
 });

@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 var fetch = require('./fetch.js'),
   parse = require('./parse.js'),
@@ -44,6 +44,7 @@ function _reset() {
   summary.phrases = {};
   summary.urls = [];
   summary.changes = {};
+  summary.sources = [];
   scanCount = 0;
   scanned = 0;
 }
@@ -64,6 +65,10 @@ function _scanUrl(url, depth, blacklist, doneCallback) {
   if (!results[url] && depth > 0) {
     scanCount++;
     summary.urls.push(url);
+    summary.sources.push({
+      url: url,
+      phrases: {}
+    });
 
     fetch.URL(url, function (err, data) {
       var rtn, i;

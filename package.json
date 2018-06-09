@@ -7,10 +7,13 @@
     "express": "~4.12.0",
     "jasmine-node": "^1.14.5"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.17.5"
+  },
   "scripts": {
     "test": "jasmine-node spec",
-    "start": "node index.js"
+    "start": "node index.js",
+    "watch-test": "jasmine-node spec --autotest --watch ."
   },
   "repository": {
     "type": "git",
