@@ -1,4 +1,5 @@
-﻿var fetch = require('../app/fetch.js');
+var uow = require('../app/uow.js'),
+  fetch = require('../app/app/fetch.js');
 
 describe('fetch.js', function () {
 

@@ -1,6 +1,7 @@
+var uow = require('./app/uow.js');
 var express = require('express');
-var config = require('./app/config.js');
-var runner = require('./app/runner.js');
+var config = uow.require('config.js');
+var runner = uow.require('runner.js');
 
 var app = express();
 

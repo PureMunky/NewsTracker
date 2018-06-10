@@ -1,4 +1,5 @@
-var logger = require('../app/logger.js');
+var uow = require('../app/uow.js').config('mock');
+var logger = require('../app/app/logger.js');
 
 describe('logger.js', function () {
   

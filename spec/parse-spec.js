@@ -1,4 +1,5 @@
-﻿var parse = require('../app/parse.js');
+var uow = require('../app/uow.js').config('mock');
+var parse = require('../app/app/parse.js');
 
 describe('parse.js', function () {
 

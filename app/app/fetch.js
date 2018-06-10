@@ -1,8 +1,9 @@
-﻿'use strict';
+'use strict';
 
-var http = require('http'),
+var uow = require('../uow.js'),
+  http = require('http'),
   https = require('https'),
-  robots = require('./robots.js'),
+  robots = uow.require('robots.js'),
   fs = require('fs');
 
 // Processes http and https resolutions.

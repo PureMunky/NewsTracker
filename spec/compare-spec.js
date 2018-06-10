@@ -1,4 +1,5 @@
-﻿var compare = require('../app/compare.js');
+var uow = require('../app/uow.js').config('mock');
+var compare = require('../app/app/compare.js');
 
 describe('compare.js', function () {
 

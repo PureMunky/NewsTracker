@@ -1,10 +1,11 @@
 var log = [];
 
 function _write(strMessage){
-	log.push({
+	//console.log(strMessage);
+  log.push({
     Message: strMessage,
     TimeStamp: new Date()
-  });  
+  });
 }
 
 function _getLog() {
@@ -15,6 +16,6 @@ function _clear() {
   log = [];
 }
 
-exports.write = _write;
-exports.getLog = _getLog;
-exports.clear = _clear;
+module.exports.write = _write;
+module.exports.getLog = _getLog;
+module.exports.clear = _clear;

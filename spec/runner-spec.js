@@ -1,4 +1,7 @@
-var runner = require('../app/runner.js');
+var uow = require('../app/uow.js');
+uow.config('mock');
+
+var runner = require('../app/app/runner.js');
 
 describe('runner.js', function () {
 
@@ -26,7 +29,7 @@ describe('runner.js', function () {
 
   })
 
-  it('scans mulitple urls', function (done) {
+  it('scans mulitple urls', function () {
     var urls = ['http://www.philcorbett.net', 'http://blog.philcorbett.net'];
 
     runner.scan(urls, function (err, summary) {
@@ -37,30 +40,24 @@ describe('runner.js', function () {
       expect(summary.urls[0]).toBe(urls[0]);
       expect(summary.urls[1]).toBe(urls[1]);
       expect(summary.urls.length).toBe(2);
-
-      // Test is finished.
-      done();
     });
   });
 
-//   it('scans sub urls', function (done) {
-//     var url = ['http://www.philcorbett.net'];
+   it('scans sub urls', function () {
+     var url = ['http://www.philcorbett.net'];     
+     
+     runner.scan(url, { depth: 2 }, function (err, summary) {
+       // Shouldn't return an error;
+       expect(err).toBe(null);
 
-//     runner.scan(url, { depth: 2 }, function (err, summary) {
-//       // Shouldn't return an error;
-//       expect(err).toBe(null);
+       // Main url should have sub urls in it.
+       expect(summary.urls.length).toBeGreaterThan(1);
 
-//       // Main url should have sub urls in it.
-//       expect(summary.urls.length).toBeGreaterThan(1);
+       // Should return phrases from the sub urls.
+       expect(Object.keys(summary.phrases).length).toBeGreaterThan(1);
+     });
 
-//       // Should return phrases from the sub urls.
-//       expect(Object.keys(summary.phrases).length).toBeGreaterThan(1);
-
-//       // Test is finished.
-//       done();
-//     });
-
-//   });
+   });
   
 //   it('filters phrases based on frequency', function (done) {
 //     var url = 'http://www.philcorbett.net',

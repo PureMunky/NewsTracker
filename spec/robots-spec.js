@@ -1,4 +1,5 @@
-var robots = require('../app/robots.js');
+var uow = require('../app/uow.js').config('mock');
+var robots = require('../app/app/robots.js');
 
 describe('robots.js', function () {
 

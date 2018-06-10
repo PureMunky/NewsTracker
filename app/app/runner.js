@@ -1,8 +1,10 @@
 'use strict';
 
-var fetch = require('./fetch.js'),
-  parse = require('./parse.js'),
-  compare = require('./compare.js'),
+var uow = require('../uow.js'),
+  fetch = uow.require('fetch.js'),
+  parse = uow.require('parse.js'),
+  compare = uow.require('compare.js'),
+  logger = uow.require('logger.js'),
   results = {},
   summary = {},
   scanCount = 0,
@@ -10,6 +12,8 @@ var fetch = require('./fetch.js'),
 
 // Scans all the urls to the depth and filters based on criteria.
 function _scan(urls, options, callback) {
+  logger.write('\n--------------\n');
+  logger.write('start runner.js_scan');
   var i = 0,
     urlArray = (typeof urls === 'string') ? [urls] : urls,
     _options = options || {},
@@ -22,6 +26,8 @@ function _scan(urls, options, callback) {
 
   _reset();
 
+  scanCount += urlArray.length;
+  logger.write('urlArray.length: ' + urlArray.length);
   for (i = 0; i < urlArray.length; i++) {
     _scanUrl(
       urlArray[i],
@@ -35,10 +41,12 @@ function _scan(urls, options, callback) {
       )
     );
   }
-};
+  logger.write('end runner.js_scan');
+}
 
 // Brings the class back to ground-zero.
 function _reset() {
+  logger.write('start runner.js _reset');
   results = {};
   summary = {};
   summary.phrases = {};
@@ -51,19 +59,23 @@ function _reset() {
 
 // Creates a the function to be called at the end.
 function _finished(greaterThan, previous, percChange, callback) {
+  logger.write('start runner.js _finished');
   return function () {
+    logger.write('runner.js is finished')
     _filter(summary.phrases, greaterThan);
 
     if (previous) { summary.changes = compare.compare(previous, summary.phrases, { percChange: percChange }); }
 
     callback(null, summary);
   }
+  logger.write('end runner.js _finish');
 }
 
 // Scans a url to depth and signals finished if it's the last url.
 function _scanUrl(url, depth, blacklist, doneCallback) {
+  logger.write('start runner.js _scanUrl '  + url);
   if (!results[url] && depth > 0) {
-    scanCount++;
+    
     summary.urls.push(url);
     summary.sources.push({
       url: url,
@@ -80,21 +92,31 @@ function _scanUrl(url, depth, blacklist, doneCallback) {
 
         _sum(rtn.phrases);
 
+        scanCount += rtn.urls.length;
+        
+        logger.write('scanCount: ' + scanCount);
         for (i = 0; i < rtn.urls.length; i++) {
           _scanUrl(rtn.urls[i], depth - 1, blacklist, doneCallback);
         }
       }
 
-      scanned++;
-      if (scanCount === scanned) {
-        doneCallback();
-      }
+      scanned++;   
     });
+  } else {
+    scanned++;
   }
+  
+  logger.write('scanCount: ' + scanCount);
+  logger.write('scanned: ' + scanned);
+  if (scanCount === scanned) {
+    doneCallback();
+  }
+  logger.write('end runner.js _scanUrl');
 }
 
 // Removes phrases below the threshold.
 function _filter(phrases, greaterThan) {
+  logger.write('start runner.js _filter');
   if (phrases) {
     var i = 0;
     var keys = Object.keys(phrases);
@@ -105,10 +127,12 @@ function _filter(phrases, greaterThan) {
       }
     }
   }
+  logger.write('end runner.js _filter');
 }
 
 // Takes the data retrived and adds its results to the summary.
 function _sum(phrases) {
+  logger.write('start runner.js _sum');
   if (phrases) {
     var i = 0;
     var keys = Object.keys(phrases);
@@ -121,6 +145,7 @@ function _sum(phrases) {
       }
     }
   }
+  logger.write('end runner.js _sum');
 }
 
 module.exports.scan = _scan;
