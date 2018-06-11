@@ -75,31 +75,30 @@ function _finished(greaterThan, previous, percChange, callback) {
 function _scanUrl(url, depth, blacklist, doneCallback) {
   logger.write('start runner.js _scanUrl '  + url);
   if (!results[url] && depth > 0) {
-    
-    summary.urls.push(url);
-    summary.sources.push({
-      url: url,
-      phrases: {}
-    });
+      summary.urls.push(url);
 
-    fetch.URL(url, function (err, data) {
-      var rtn, i;
+      fetch.URL(url, function (err, data) {
+        var rtn, i;
 
-      if (!err) {
-        rtn = parse.parse(data, 1, 3, blacklist);
-        i = 0;
-        results[url] = data;
+        if (!err) {
+          rtn = parse.parse(data, 1, 3, blacklist);
+          i = 0;
+          results[url] = data;
+          summary.sources.push({
+            url: url,
+            phrases: rtn.phrases
+          });
 
-        _sum(rtn.phrases);
+          _sum(rtn.phrases);
 
-        scanCount += rtn.urls.length;
-        
-        logger.write('scanCount: ' + scanCount);
-        for (i = 0; i < rtn.urls.length; i++) {
-          _scanUrl(rtn.urls[i], depth - 1, blacklist, doneCallback);
+          scanCount += rtn.urls.length;
+
+          logger.write('scanCount: ' + scanCount);
+          for (i = 0; i < rtn.urls.length; i++) {
+            _scanUrl(rtn.urls[i], depth - 1, blacklist, doneCallback);
+          }
         }
-      }
-
+                
       scanned++;   
     });
   } else {

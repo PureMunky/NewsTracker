@@ -3,10 +3,12 @@ function parse() {
   return {
     phrases: {
       'hello': {
-        qty: 100
+        qty: 100,
+        perc: Infinity
       },
       'testing': {
-        qty: 50
+        qty: 50,
+        perc: .50
       }
     },
     urls: [
